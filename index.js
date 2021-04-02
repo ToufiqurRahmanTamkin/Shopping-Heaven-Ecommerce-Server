@@ -9,14 +9,11 @@ app.use(cors());
 app.use(express.json());
 
 const MongoClient = require('mongodb').MongoClient;
-// const uri = "mongodb+srv://tamakinu:tamakinu12345@cluster0.qsr7x.mongodb.net/freshValley?retryWrites=true&w=majority";
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.z8m97.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-
 client.connect(err => {
   const collection = client.db("freshValley").collection("store");
-
 
   console.log("database connected");
   app.get('/', (req, res) => {
@@ -61,7 +58,6 @@ client.connect(err => {
     const item = {
       time: new Date().toLocaleString()
     }
-
     collection.findOneAndUpdate({ _id: ObjectID(req.params.id) }, { $set: item }, (err, result) => {
       if (err) {
         console.log(err);
