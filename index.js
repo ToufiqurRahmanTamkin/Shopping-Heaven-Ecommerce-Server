@@ -1,6 +1,7 @@
 const express = require('express')
 const ObjectID = require('mongodb').ObjectID;
-const cors = require('cors')
+const cors = require('cors');
+require('dotenv').config()
 const app = express()
 const port = 5000
 
@@ -9,7 +10,7 @@ app.use(express.json());
 
 const MongoClient = require('mongodb').MongoClient;
 // const uri = "mongodb+srv://tamakinu:tamakinu12345@cluster0.qsr7x.mongodb.net/freshValley?retryWrites=true&w=majority";
-const uri = "mongodb+srv://casio:casio12345@cluster0.z8m97.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.z8m97.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
@@ -72,6 +73,4 @@ client.connect(err => {
   })
 });
 
-app.listen(port, () => {
-  console.log('listening to port', port)
-})
+app.listen(process.env.PORT || port)
